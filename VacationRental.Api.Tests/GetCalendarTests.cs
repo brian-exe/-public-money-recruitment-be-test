@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using VacationRental.Api.Models;
 using Xunit;
