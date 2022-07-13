@@ -7,7 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
+using VacationRental.Abstractions.Repositories;
+using VacationRental.Abstractions.Services;
+using VacationRental.Api.Middlewares;
 using VacationRental.Api.Models;
+using VacationRental.Repositories;
+using VacationRental.Services;
 
 namespace VacationRental.Api
 {
@@ -25,9 +30,16 @@ namespace VacationRental.Api
         {
             services.AddControllers();
 
-            services.AddSwaggerGen(opts => opts.SwaggerDoc("v1", new OpenApiInfo { Title = "Vacation rental information", Version = "v1" }));
+            services.AddSwaggerGen(opts =>
+                {
+                    opts.SwaggerDoc("v1", new OpenApiInfo { Title = "Vacation rental information", Version = "v1" });
+                    opts.EnableAnnotations();
+               }
+            );
 
-            services.AddSingleton<IDictionary<int, RentalViewModel>>(new Dictionary<int, RentalViewModel>());
+            //services.AddSingleton<IDictionary<int, RentalViewModel>>(new Dictionary<int, RentalViewModel>());
+            services.AddTransient<IRentalService, RentalService>();
+            services.AddSingleton<IRentalRepository, RentalInMemoryRepository>();
             services.AddSingleton<IDictionary<int, BookingViewModel>>(new Dictionary<int, BookingViewModel>());
         }
 
@@ -41,6 +53,7 @@ namespace VacationRental.Api
 
             app.UseSwagger();
             app.UseSwaggerUI(opts => opts.SwaggerEndpoint("/swagger/v1/swagger.json", "VacationRental v1"));
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseRouting();
             app.UseEndpoints(e => e.MapControllers());
         }

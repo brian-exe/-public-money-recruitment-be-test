@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using VacationRental.Api.Models;
+using Swashbuckle.AspNetCore.Annotations;
+using VacationRental.Abstractions.Services;
 
 namespace VacationRental.Api.Controllers
 {
@@ -9,18 +11,19 @@ namespace VacationRental.Api.Controllers
     [ApiController]
     public class BookingsController : ControllerBase
     {
-        private readonly IDictionary<int, RentalViewModel> _rentals;
         private readonly IDictionary<int, BookingViewModel> _bookings;
+        private readonly IRentalService rentalService;
 
         public BookingsController(
-            IDictionary<int, RentalViewModel> rentals,
-            IDictionary<int, BookingViewModel> bookings)
+            IDictionary<int, BookingViewModel> bookings,
+            IRentalService rentalService)
         {
-            _rentals = rentals;
             _bookings = bookings;
+            this.rentalService = rentalService;
         }
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Get a booking", Description = "Get a booking by id")]
         [Route("{bookingId:int}")]
         public BookingViewModel Get(int bookingId)
         {
@@ -35,8 +38,10 @@ namespace VacationRental.Api.Controllers
         {
             if (model.Nights <= 0)
                 throw new ApplicationException("Nigts must be positive");
-            if (!_rentals.ContainsKey(model.RentalId))
-                throw new ApplicationException("Rental not found");
+
+            var rental = rentalService.GetRentalById(model.RentalId);
+            //if (!_rentals.ContainsKey(model.RentalId))
+            //    throw new ApplicationException("Rental not found");
 
             for (var i = 0; i < model.Nights; i++)
             {
@@ -51,7 +56,7 @@ namespace VacationRental.Api.Controllers
                         count++;
                     }
                 }
-                if (count >= _rentals[model.RentalId].Units)
+                if (count >= rental.Units)
                     throw new ApplicationException("Not available");
             }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using VacationRental.Abstractions.Services;
 using VacationRental.Api.Models;
 
 namespace VacationRental.Api.Controllers
@@ -9,24 +10,26 @@ namespace VacationRental.Api.Controllers
     [ApiController]
     public class CalendarController : ControllerBase
     {
-        private readonly IDictionary<int, RentalViewModel> _rentals;
         private readonly IDictionary<int, BookingViewModel> _bookings;
+        private readonly IRentalService rentalService;
 
         public CalendarController(
-            IDictionary<int, RentalViewModel> rentals,
-            IDictionary<int, BookingViewModel> bookings)
+            IDictionary<int, BookingViewModel> bookings,
+            IRentalService rentalService)
         {
-            _rentals = rentals;
             _bookings = bookings;
+            this.rentalService = rentalService;
         }
 
         [HttpGet]
-        public CalendarViewModel Get(int rentalId, DateTime start, int nights)
+        public ActionResult<CalendarViewModel> Get(int rentalId, DateTime start, int nights)
         {
             if (nights < 0)
                 throw new ApplicationException("Nights must be positive");
-            if (!_rentals.ContainsKey(rentalId))
-                throw new ApplicationException("Rental not found");
+
+            var rental = rentalService.GetRentalById(rentalId);
+            //if (!_rentals.ContainsKey(rentalId))
+            //    throw new ApplicationException("Rental not found");
 
             var result = new CalendarViewModel 
             {
@@ -53,7 +56,7 @@ namespace VacationRental.Api.Controllers
                 result.Dates.Add(date);
             }
 
-            return result;
+            return Ok(result);
         }
     }
 }
