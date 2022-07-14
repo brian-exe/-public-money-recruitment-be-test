@@ -6,6 +6,6 @@ using VacationRental.Domain.Entities;
 
 namespace VacationRental.Repositories
 {
-    public class RentalInMemoryRepository :  BaseInMemoryRepository<Rental>, IRentalRepository
+    public class BookingInMemoryRepository : BaseInMemoryRepository<Booking>, IBookingRepository
     {    }
 }
