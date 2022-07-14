@@ -25,7 +25,7 @@ namespace VacationRental.Services
         {
             var rental = _rentalRepository.GetById(rentalId);
             if (rental == null)
-                throw new RentalNotfoundException(rentalId);
+                throw new EntityNotFoundException("Rental", rentalId.ToString());
 
             return rental;
         }

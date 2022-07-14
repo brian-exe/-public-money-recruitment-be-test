@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VacationRental.DTOs\VacationRental.Models.csproj" />
     <ProjectReference Include="..\VacationRental.Entities\VacationRental.Domain.csproj" />
+    <ProjectReference Include="..\VacationRental.Models\VacationRental.Models.csproj" />
   </ItemGroup>
 
 </Project>

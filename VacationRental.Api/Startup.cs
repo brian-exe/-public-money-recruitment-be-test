@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,9 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using VacationRental.Abstractions.Repositories;
 using VacationRental.Abstractions.Services;
+using VacationRental.Api.MapperProfiles;
 using VacationRental.Api.Middlewares;
-using VacationRental.Api.Models;
+using VacationRental.Models;
 using VacationRental.Repositories;
 using VacationRental.Services;
 
@@ -37,9 +39,19 @@ namespace VacationRental.Api
                }
             );
 
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new RentalProfile());
+                mc.AddProfile(new BookingProfile());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             //services.AddSingleton<IDictionary<int, RentalViewModel>>(new Dictionary<int, RentalViewModel>());
             services.AddTransient<IRentalService, RentalService>();
+            services.AddTransient<IBookingService, BookingService>();
             services.AddSingleton<IRentalRepository, RentalInMemoryRepository>();
+            services.AddSingleton<IBookingRepository, BookingInMemoryRepository>();
             services.AddSingleton<IDictionary<int, BookingViewModel>>(new Dictionary<int, BookingViewModel>());
         }
 

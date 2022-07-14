@@ -24,7 +24,11 @@ namespace VacationRental.Api.Middlewares
             {
                 await next(context);
             }
-            catch(NotFoundException ex)
+            catch(ApplicationException ex)
+            {
+                await HandleApplicationException(context, ex).ConfigureAwait(false);
+            }
+            catch(EntityNotFoundException ex)
             {
                 await HandleNotFoundException(context, ex).ConfigureAwait(false);
             }
@@ -33,6 +37,9 @@ namespace VacationRental.Api.Middlewares
                 await HandleInternalErrorException(context, ex).ConfigureAwait(false);
             }
         }
+
+        private Task HandleApplicationException(HttpContext context, Exception ex)
+            => HandleException(context, (int)HttpStatusCode.BadRequest, ex.Message);
 
         private Task HandleNotFoundException(HttpContext context, Exception ex)
             => HandleException(context, (int)HttpStatusCode.NotFound, ex.Message);

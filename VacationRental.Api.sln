@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VacationRental.Repositories", "VacationRental.Repositories\VacationRental.Repositories.csproj", "{40501DCC-546C-4D80-A4F4-70CAA96D2494}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VacationRental.Models", "VacationRental.DTOs\VacationRental.Models.csproj", "{A133258C-AE31-4A1A-AFB7-48B132CE44E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VacationRental.Models", "VacationRental.Models\VacationRental.Models.csproj", "{A133258C-AE31-4A1A-AFB7-48B132CE44E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

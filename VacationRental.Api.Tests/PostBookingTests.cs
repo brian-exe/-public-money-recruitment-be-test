@@ -91,13 +91,15 @@ namespace VacationRental.Api.Tests
                 Nights = 1,
                 Start = new DateTime(2002, 01, 02)
             };
-
-            await Assert.ThrowsAsync<ApplicationException>(async () =>
+            using (var postBooking2Response = await _client.PostAsJsonAsync($"/api/v1/bookings", postBooking2Request))
             {
-                using (var postBooking2Response = await _client.PostAsJsonAsync($"/api/v1/bookings", postBooking2Request))
-                {
-                }
-            });
+                Assert.False(postBooking2Response.IsSuccessStatusCode);
+            }
+
+            //await Assert.ThrowsAsync<ApplicationException>(async () =>
+            //{
+
+            //});
         }
     }
 }

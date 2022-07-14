@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VacationRental.Abstractions\VacationRental.Abstractions.csproj" />
+    <ProjectReference Include="..\VacationRental.Models\VacationRental.Models.csproj" />
   </ItemGroup>
 
 </Project>

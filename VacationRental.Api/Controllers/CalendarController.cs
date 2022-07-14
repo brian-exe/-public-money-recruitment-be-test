@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using VacationRental.Abstractions.Services;
+using VacationRental.Models;
 using VacationRental.Api.Models;
 
 namespace VacationRental.Api.Controllers
