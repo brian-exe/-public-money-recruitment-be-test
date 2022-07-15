@@ -50,6 +50,7 @@ namespace VacationRental.Api
             //services.AddSingleton<IDictionary<int, RentalViewModel>>(new Dictionary<int, RentalViewModel>());
             services.AddTransient<IRentalService, RentalService>();
             services.AddTransient<IBookingService, BookingService>();
+            services.AddTransient<ICalendarService, CalendarService>();
             services.AddSingleton<IRentalRepository, RentalInMemoryRepository>();
             services.AddSingleton<IBookingRepository, BookingInMemoryRepository>();
             services.AddSingleton<IDictionary<int, BookingViewModel>>(new Dictionary<int, BookingViewModel>());

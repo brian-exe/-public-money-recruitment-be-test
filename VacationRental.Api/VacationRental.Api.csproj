@@ -23,4 +23,8 @@
     <ProjectReference Include="..\VacationRental.Services\VacationRental.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

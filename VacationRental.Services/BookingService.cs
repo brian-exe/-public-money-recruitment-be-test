@@ -48,6 +48,8 @@ namespace VacationRental.Services
             return addedBooking;
         }
 
+        public IEnumerable<Booking> GetAll() => _bookingRepository.GetAll();
+
         public Booking GetBookingById(int bookingId)
         {
             var rental = _bookingRepository.GetById(bookingId);

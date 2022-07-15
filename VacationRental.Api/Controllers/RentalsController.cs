@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using VacationRental.Abstractions.Services;
-using VacationRental.Api.Models;
 using VacationRental.Models;
 
 namespace VacationRental.Api.Controllers

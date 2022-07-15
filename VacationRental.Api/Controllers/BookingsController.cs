@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using VacationRental.Api.Models;
 using Swashbuckle.AspNetCore.Annotations;
 using VacationRental.Abstractions.Services;
 using AutoMapper;
@@ -13,15 +12,11 @@ namespace VacationRental.Api.Controllers
     [ApiController]
     public class BookingsController : ControllerBase
     {
-        private readonly IDictionary<int, BookingViewModel> _bookings;
-        private readonly IRentalService _rentalService;
         private readonly IBookingService _bookingService;
         private readonly IMapper _mapper;
 
-        public BookingsController(IDictionary<int, BookingViewModel> bookings, IRentalService rentalService, IBookingService bookingService, IMapper mapper)
+        public BookingsController(IBookingService bookingService, IMapper mapper)
         {
-            _bookings = bookings;
-            _rentalService = rentalService;
             _bookingService = bookingService;
             _mapper = mapper;
         }
