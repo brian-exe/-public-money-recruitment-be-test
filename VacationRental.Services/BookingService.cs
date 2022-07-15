@@ -31,7 +31,7 @@ namespace VacationRental.Services
             var query = _bookingRepository
                         .AsQueryable()
                             .Where(b => b.RentalId == rental.Id)
-                            .Where(b => b.IntersectsWithRange(model.Start, model.Start.AddDays(model.Nights)));
+                            .Where(b => b.IntersectsWithRange(model.Start, model.Start.AddDays(model.Nights + rental.PreparationTimeInDays)));
 
             var overlappingsFound = _bookingRepository.GetFiltered(query).Count();
 
@@ -42,7 +42,8 @@ namespace VacationRental.Services
             {
                 Nights = model.Nights,
                 RentalId = model.RentalId,
-                Start = model.Start.Date
+                Start = model.Start.Date,
+                Unit = overlappingsFound + 1
             });
 
             return addedBooking;
