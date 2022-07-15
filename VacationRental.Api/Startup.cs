@@ -47,13 +47,11 @@ namespace VacationRental.Api
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            //services.AddSingleton<IDictionary<int, RentalViewModel>>(new Dictionary<int, RentalViewModel>());
             services.AddTransient<IRentalService, RentalService>();
             services.AddTransient<IBookingService, BookingService>();
             services.AddTransient<ICalendarService, CalendarService>();
             services.AddSingleton<IRentalRepository, RentalInMemoryRepository>();
             services.AddSingleton<IBookingRepository, BookingInMemoryRepository>();
-            services.AddSingleton<IDictionary<int, BookingViewModel>>(new Dictionary<int, BookingViewModel>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

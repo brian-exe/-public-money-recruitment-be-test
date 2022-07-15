@@ -25,18 +25,18 @@ namespace VacationRental.Services
         public Booking AddBooking(BookingBindingModel model)
         {
             if (model.Nights <= 0)
-                throw new ApplicationException("Nigts must be positive");
+                throw new ApplicationException("Nights must be positive");
 
             var rental = _rentalService.GetRentalById(model.RentalId);
             var query = _bookingRepository
                         .AsQueryable()
                             .Where(b => b.RentalId == rental.Id)
-                            .Where(b => (model.Start < b.Start.AddDays(b.Nights)) && (b.Start < model.Start.AddDays(model.Nights)));
+                            .Where(b => b.IntersectsWithRange(model.Start, model.Start.AddDays(model.Nights)));
 
             var overlappingsFound = _bookingRepository.GetFiltered(query).Count();
 
             if (overlappingsFound >= rental.Units)
-                throw new ApplicationException("Not available");
+                throw new ApplicationException("Not available for booking");
 
             var addedBooking = _bookingRepository.Add(new Booking
             {
@@ -49,6 +49,14 @@ namespace VacationRental.Services
         }
 
         public IEnumerable<Booking> GetAll() => _bookingRepository.GetAll();
+
+        public IEnumerable<Booking> GetBookingsForDatesAndRental(int rentalId, DateTime start, DateTime end)
+        {
+            var query = _bookingRepository
+                            .AsQueryable()
+                                .Where(b => b.RentalId == rentalId && b.IntersectsWithRange(start, end));
+            return _bookingRepository.GetFiltered(query);
+        }
 
         public Booking GetBookingById(int bookingId)
         {

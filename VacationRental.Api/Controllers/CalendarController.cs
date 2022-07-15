@@ -10,7 +10,6 @@ namespace VacationRental.Api.Controllers
     [ApiController]
     public class CalendarController : ControllerBase
     {
-        private readonly IDictionary<int, BookingViewModel> _bookings;
         private readonly ICalendarService _calendarService;
 
         public CalendarController(ICalendarService calendarService)

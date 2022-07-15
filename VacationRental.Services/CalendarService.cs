@@ -31,6 +31,9 @@ namespace VacationRental.Services
                 RentalId = rental.Id,
                 Dates = new List<CalendarDateViewModel>()
             };
+
+            var bookedDates = _bookingService.GetBookingsForDatesAndRental(rental.Id, model.Start, model.Start.Date.AddDays(model.Nights));
+
             for (var i = 0; i < model.Nights; i++)
             {
                 var date = new CalendarDateViewModel
@@ -39,13 +42,11 @@ namespace VacationRental.Services
                     Bookings = new List<CalendarBookingViewModel>()
                 };
 
-                foreach (var booking in _bookingService.GetAll())
+                var bookingsForDate = bookedDates.Where(b => b.IsDateBooked(date.Date));
+
+                foreach (var booking in bookingsForDate)
                 {
-                    if (booking.RentalId == rental.Id
-                        && booking.Start <= date.Date && booking.Start.AddDays(booking.Nights) > date.Date)
-                    {
-                        date.Bookings.Add(new CalendarBookingViewModel { Id = booking.Id });
-                    }
+                    date.Bookings.Add(new CalendarBookingViewModel { Id = booking.Id });
                 }
 
                 result.Dates.Add(date);
