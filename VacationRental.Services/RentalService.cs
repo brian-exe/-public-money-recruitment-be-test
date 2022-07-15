@@ -19,7 +19,10 @@ namespace VacationRental.Services
             => _rentalRepository = rentalRepository;
 
         public Rental AddRental(RentalBindingModel rentalBindingModel)
-            => _rentalRepository.Add(new Rental() { Units = rentalBindingModel.Units });
+            => _rentalRepository.Add(new Rental() { 
+                Units = rentalBindingModel.Units,
+                PreparationTimeInDays = rentalBindingModel.PreparationTimeInDays
+            });
 
         public Rental GetRentalById(int rentalId)
         {
