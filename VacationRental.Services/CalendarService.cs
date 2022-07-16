@@ -46,7 +46,6 @@ namespace VacationRental.Services
                 result.Dates.Add(date);
             }
 
-            //TODO: Revisar este for que se puede quitar y pasarlo al de arriba y sumar un metodo en el booking para saber si está ocupado por limpieza
             foreach(Booking b in bookingsFound)
             {
                 for(var j =0; j< b.Nights; j++)

@@ -48,6 +48,7 @@ namespace VacationRental.Api
             services.AddSingleton(mapper);
 
             services.AddTransient<IRentalService, RentalService>();
+            services.AddTransient<IUpdateRentalService, UpdateRentalService>();
             services.AddTransient<IBookingService, BookingService>();
             services.AddTransient<ICalendarService, CalendarService>();
             services.AddSingleton<IRentalRepository, RentalInMemoryRepository>();

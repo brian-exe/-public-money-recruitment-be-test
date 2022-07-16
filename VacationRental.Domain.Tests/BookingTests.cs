@@ -48,7 +48,7 @@ namespace VacationRental.Domain.Tests
         {
             //arrange
             var start = bookingForTest.Start;
-            var end = bookingForTest.End();
+            var end = bookingForTest.End;
 
             //same dates
             var result = bookingForTest.IntersectsWithRange(start,end);
@@ -60,7 +60,7 @@ namespace VacationRental.Domain.Tests
         {
             //arrange
             var start = bookingForTest.Start.AddDays(1);
-            var end = bookingForTest.End().AddDays(-1);
+            var end = bookingForTest.End.AddDays(-1);
 
             //same dates
             var result = bookingForTest.IntersectsWithRange(start,end);
@@ -72,7 +72,7 @@ namespace VacationRental.Domain.Tests
         {
             //arrange
             var start = bookingForTest.Start.AddDays(1);
-            var end = bookingForTest.End().AddDays(1);
+            var end = bookingForTest.End.AddDays(1);
 
             //same dates
             var result = bookingForTest.IntersectsWithRange(start, end);
@@ -84,7 +84,7 @@ namespace VacationRental.Domain.Tests
         {
             //arrange
             var start = bookingForTest.Start.AddDays(-10);
-            var end = bookingForTest.End().AddDays(-1);
+            var end = bookingForTest.End.AddDays(-1);
 
             //same dates
             var result = bookingForTest.IntersectsWithRange(start, end);

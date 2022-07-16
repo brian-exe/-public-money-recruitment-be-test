@@ -14,5 +14,7 @@ namespace VacationRental.Abstractions.Services
         Booking AddBooking(BookingBindingModel rentalBindingModel);
         IEnumerable<Booking> GetAll();
         IEnumerable<Booking> GetBookingsForDatesAndRental(int rentalId, DateTime start, DateTime end);
+        IEnumerable<Booking> GetBookingsForRental(int rentalId);
+        void UpdateBookingsForRental(Rental updatedRental);
     }
 }

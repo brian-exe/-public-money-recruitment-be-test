@@ -31,6 +31,7 @@ namespace VacationRental.Api.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Create Booking", Description = "Create a new Booking based on payload")]
         public ActionResult<ResourceIdViewModel> Post(BookingBindingModel model)
         {
             var booking =_bookingService.AddBooking(model);

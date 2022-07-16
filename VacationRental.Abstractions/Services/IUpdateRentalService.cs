@@ -8,9 +8,8 @@ using VacationRental.Models;
 
 namespace VacationRental.Abstractions.Services
 {
-    public interface IRentalService
+    public interface IUpdateRentalService
     {
-        Rental GetRentalById(int rentalId);
-        Rental AddRental(RentalBindingModel rentalBindingModel);
+        Rental UpdateRental(int rentalId, RentalBindingModel rentalBindingModel);
     }
 }

@@ -9,5 +9,6 @@ namespace VacationRental.Abstractions.Repositories
 {
     public interface IBookingRepository : IBaseRepository<Booking>
     {
+        Booking Update(Booking bookingUpdated);
     }
 }
