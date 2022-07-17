@@ -21,7 +21,7 @@ namespace VacationRental.Domain.Tests
         public void IsDateBooked_WhenDateIsBooked_ReturnsTrue()
         {
             //arrange
-            var dateForCheck = DateTime.Now.AddDays(1);
+            var dateForCheck = bookingForTest.Start.AddDays(1);
 
             //act
             var result = bookingForTest.IsDateBooked(dateForCheck);
@@ -34,7 +34,7 @@ namespace VacationRental.Domain.Tests
         public void IsDateBooked_WhenDateIsNotBooked_ReturnsFalse()
         {
             //arrange
-            var dateForCheck = DateTime.Now.AddDays(6);
+            var dateForCheck = bookingForTest.Start.AddDays(6);
 
             //act
             var result = bookingForTest.IsDateBooked(dateForCheck);
@@ -91,6 +91,33 @@ namespace VacationRental.Domain.Tests
             Assert.True(result);
         }
 
+        [Fact]
+        public void IsDateReserved_WhenDateIsReserved_ReturnsTrue()
+        {
+            //arrange
+            bookingForTest.PreparationTimeInDays = 1;
+            var dateForCheck = bookingForTest.End.AddDays(1);
+
+            //act
+            var result = bookingForTest.IsDateReserved(dateForCheck);
+
+            //assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void IsDateReserved_WhenDateIsNotReserved_ReturnsFalse()
+        {
+            //arrange
+            bookingForTest.PreparationTimeInDays = 1;
+            var dateForCheck = bookingForTest.End.AddDays(2);
+
+            //act
+            var result = bookingForTest.IsDateReserved(dateForCheck);
+
+            //assert
+            Assert.False(result);
+        }
 
     }
 }
