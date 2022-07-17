@@ -1,3 +1,5 @@
+[YOU CAN SEE MY NOTES HERE](Notes_Ezequiel_Aciar.md)
+
 ## How we'd like to recieve the soluion?
 
 1. Clone this repository and upload it as a new public repository in your github account
