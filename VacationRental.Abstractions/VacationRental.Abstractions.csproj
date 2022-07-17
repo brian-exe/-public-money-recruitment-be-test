@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VacationRental.Entities\VacationRental.Domain.csproj" />
+    <ProjectReference Include="..\VacationRental.Models\VacationRental.Models.csproj" />
+  </ItemGroup>
+
+</Project>

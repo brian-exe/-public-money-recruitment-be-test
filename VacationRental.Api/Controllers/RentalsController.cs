@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using VacationRental.Api.Models;
+using Swashbuckle.AspNetCore.Annotations;
+using VacationRental.Abstractions.Services;
+using VacationRental.Models;
 
 namespace VacationRental.Api.Controllers
 {
@@ -9,35 +12,41 @@ namespace VacationRental.Api.Controllers
     [ApiController]
     public class RentalsController : ControllerBase
     {
-        private readonly IDictionary<int, RentalViewModel> _rentals;
+        private readonly IRentalService _rentalService;
+        private readonly IUpdateRentalService _updateRentalService;
+        private readonly IMapper _mapper;
 
-        public RentalsController(IDictionary<int, RentalViewModel> rentals)
-        {
-            _rentals = rentals;
+        public RentalsController(IRentalService rentalService, IUpdateRentalService updateRentalService, IMapper mapper)
+        { 
+            _rentalService = rentalService;
+            _updateRentalService = updateRentalService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Route("{rentalId:int}")]
-        public RentalViewModel Get(int rentalId)
+        [SwaggerOperation(Summary = "Get Rental", Description = "Get Rental by specified Id")]
+        public ActionResult<RentalViewModel> Get(int rentalId)
         {
-            if (!_rentals.ContainsKey(rentalId))
-                throw new ApplicationException("Rental not found");
-
-            return _rentals[rentalId];
+            var rental = _rentalService.GetRentalById(rentalId);
+            return Ok(_mapper.Map<RentalViewModel>(rental));
         }
 
         [HttpPost]
-        public ResourceIdViewModel Post(RentalBindingModel model)
+        [SwaggerOperation(Summary = "Create Rental", Description = "Create Rental")]
+        public ActionResult<ResourceIdViewModel> Post(RentalBindingModel model)
         {
-            var key = new ResourceIdViewModel { Id = _rentals.Keys.Count + 1 };
+            var addedRental = _rentalService.AddRental(model);
+            return Ok(_mapper.Map<ResourceIdViewModel>(addedRental));
+        }
 
-            _rentals.Add(key.Id, new RentalViewModel
-            {
-                Id = key.Id,
-                Units = model.Units
-            });
-
-            return key;
+        [HttpPut]
+        [Route("{rentalId:int}")]
+        [SwaggerOperation(Summary = "Update Rental", Description = "Update Rental")]
+        public ActionResult<ResourceIdViewModel> Update(int rentalId, RentalBindingModel model)
+        {
+            var updatedRental = _updateRentalService.UpdateRental(rentalId, model);
+            return Ok(_mapper.Map<ResourceIdViewModel>(updatedRental));
         }
     }
 }
