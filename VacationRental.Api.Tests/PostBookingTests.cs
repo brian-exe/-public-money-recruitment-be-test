@@ -62,7 +62,8 @@ namespace VacationRental.Api.Tests
         {
             var postRentalRequest = new RentalBindingModel
             {
-                Units = 1
+                Units = 1,
+                PreparationTimeInDays =1
             };
 
             ResourceIdViewModel postRentalResult;
@@ -84,6 +85,7 @@ namespace VacationRental.Api.Tests
                 Assert.True(postBooking1Response.IsSuccessStatusCode);
             }
 
+            //conflict with booking (starting in the middle)
             var postBooking2Request = new BookingBindingModel
             {
                 RentalId = postRentalResult.Id,
@@ -95,10 +97,39 @@ namespace VacationRental.Api.Tests
                 Assert.False(postBooking2Response.IsSuccessStatusCode);
             }
 
-            //await Assert.ThrowsAsync<ApplicationException>(async () =>
-            //{
+            //Same dates
+            postBooking2Request.Nights = 3;
+            postBooking2Request.Start = new DateTime(2002, 01, 01);
+            using (var postBooking2Response = await _client.PostAsJsonAsync($"/api/v1/bookings", postBooking2Request))
+            {
+                Assert.False(postBooking2Response.IsSuccessStatusCode);
+            }
 
-            //});
+            //Starting before but ending in the middle
+            postBooking2Request.Nights = 3;
+            postBooking2Request.Start = new DateTime(2001, 12, 30);
+            using (var postBooking2Response = await _client.PostAsJsonAsync($"/api/v1/bookings", postBooking2Request))
+            {
+                Assert.False(postBooking2Response.IsSuccessStatusCode);
+            }
+
+            //Starting before and ending after (containing existing booking)
+            postBooking2Request.Nights = 10;
+            postBooking2Request.Start = new DateTime(2001, 12, 30);
+            using (var postBooking2Response = await _client.PostAsJsonAsync($"/api/v1/bookings", postBooking2Request))
+            {
+                Assert.False(postBooking2Response.IsSuccessStatusCode);
+            }
+
+            //conflict with PreparationTime
+            postBooking2Request.Nights = 1;
+            postBooking2Request.Start = new DateTime(2002, 01, 04);
+
+            using (var postBooking2Response = await _client.PostAsJsonAsync($"/api/v1/bookings", postBooking2Request))
+            {
+                Assert.False(postBooking2Response.IsSuccessStatusCode);
+            }
+
         }
     }
 }
